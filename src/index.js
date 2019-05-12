@@ -161,7 +161,9 @@ function displayFeaturedItem(item) {
 
   itemSection.innerHTML += `
         <div class="item-image">
-          <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${item.title}">
+          <img src="${imageSrc[0]}" class="item-link" data-id="${
+    item.id
+  }" alt="${item.title}">
         </div>
         <div class="f-item-details">
           <div class="f-title-price">
@@ -197,12 +199,10 @@ function handleClick(event) {
     let productLink = event.target;
     // console.log(productLink.dataset.id);
     let id = productLink.dataset.id;
-    
+
     fetchThisItem(id);
   }
 }
-
-
 
 function fetchThisItem(id) {
   // Fetch a single product by ID
@@ -216,32 +216,32 @@ function fetchThisItem(id) {
 }
 
 async function displayThisItem(item) {
-  await moveWindow();
   
+  await moveWindow();
+
   console.log(item);
+
+  let imageSrc = [];
+
+  if (item.images) {
+    let images = item.images;
+    images.forEach(function(i) {
+      imageSrc.push(i.src);
+    });
+  }
+
+  //retrieve item price
+  let itemPrice = [];
+  let itemVariants = item.variants;
+  itemVariants.forEach(function(x) {
+    itemPrice.push(x.price);
+  });
+
+  console.log(itemPrice);
+  
+  let itemSection = document.querySelector('#item-section');
+  console.log(itemSection);
 }
-
-// console.log(item);
-
-// let imageSrc = [];
-
-// if (item.images) {
-//   let images = item.images;
-//   images.forEach(function(i) {
-//     imageSrc.push(i.src);
-//   });
-// }
-
-// //retrieve item price
-// let itemPrice = [];
-// let itemVariants = item.variants;
-// itemVariants.forEach(function(x) {
-//   itemPrice.push(x.price);
-// });
-
-// console.log(itemPrice);
-
-// let itemSection = document.querySelector('#item-section');
 
 // console.log(itemSection);
 
