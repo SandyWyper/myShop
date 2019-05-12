@@ -4,9 +4,6 @@ import Client from "shopify-buy";
 import ids from "./ids";
 
 const idTags = ids.ids;
-// const headerLarge = document.querySelector('#home');
-// const headerSlim = document.querySelector('#slim-box');
-// const collections = document.querySelector('#collections');
 
 const client = Client.buildClient({
   domain: "sandywyper-co-uk.myshopify.com",
@@ -164,9 +161,7 @@ function displayFeaturedItem(item) {
 
   itemSection.innerHTML += `
         <div class="item-image">
-          <img src="${imageSrc[0]}" class="item-link" data-id="${
-    item.id
-  }" alt="${item.title}">
+          <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${item.title}">
         </div>
         <div class="f-item-details">
           <div class="f-title-price">
@@ -202,13 +197,14 @@ function handleClick(event) {
     let productLink = event.target;
     // console.log(productLink.dataset.id);
     let id = productLink.dataset.id;
-    // moveWindow();
+    
     fetchThisItem(id);
   }
 }
 
-function fetchThisItem(id) {
 
+
+function fetchThisItem(id) {
   // Fetch a single product by ID
   client.product
     .fetch(id)
@@ -219,9 +215,10 @@ function fetchThisItem(id) {
     .catch(err => console.log(err));
 }
 
-function displayThisItem(item) {
-  console.log(item);
+async function displayThisItem(item) {
+  await moveWindow();
   
+  console.log(item);
 }
 
 // console.log(item);
