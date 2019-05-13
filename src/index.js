@@ -160,34 +160,34 @@ function displayFeaturedItem(item) {
   let itemSection = document.querySelector("#featured-item");
 
   itemSection.innerHTML += `
-        <div class="item-image">
-          <img src="${imageSrc[0]}" class="item-link" data-id="${
-    item.id
-  }" alt="${item.title}">
+    <div class="featured-item-image">
+      <a href="../product.html">
+        <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${item.title}">
+      </a>
+    </div>
+    <div class="f-item-details">
+      <div class="f-title-price">
+        <h2>${item.title}</h2>
+        <h3>&pound;${itemPrice[0]}</h3>
+        <p>Tax Included.</p>
+        <p>________</p>
+      </div>
+      <div class="buy-buttons">
+        <button class="btn1">ADD TO CART</button>
+        <button class="btn2">BUY NOW</button>
+      </div>
+      <div>
+        <p class="full-details item-link"><a href="product.html">Full details &rarr;</a></p>
+        <div class="social">
+          <p><i class="fab fa-facebook-f"></i> Share<p>
+                &nbsp;
+          <p><i class="fab fa-twitter"></i> Tweet</p>
+                &nbsp;
+          <p><i class="fab fa-pinterest-p"></i> Pin it</p>
         </div>
-        <div class="f-item-details">
-          <div class="f-title-price">
-            <h2>${item.title}</h2>
-            <h3>&pound;${itemPrice[0]}</h3>
-            <p>Tax Included.</p>
-            <p>________</p>
-          </div>
-          <div class="buy-buttons">
-            <button class="btn1">ADD TO CART</button>
-            <button class="btn2">BUY NOW</button>
-          </div>
-          <div>
-            <p class="full-details item-link">Full details &rarr;</p>
-            <div class="social">
-              <p><i class="fab fa-facebook-f"></i> Share<p>
-                    &nbsp;
-              <p><i class="fab fa-twitter"></i> Tweet</p>
-                    &nbsp;
-              <p><i class="fab fa-pinterest-p"></i> Pin it</p>
-            </div>
-          </div>
-        </div>
-      `;
+      </div>
+    </div>
+  `;
 }
 
 function handleClick(event) {
@@ -215,14 +215,14 @@ function fetchThisItem(id) {
     .catch(err => console.log(err));
 }
 
-async function displayThisItem(item) {
-  
-  await moveWindow();
+function displayThisItem(item) {
+  // moveWindow();
 
   console.log(item);
 
   let imageSrc = [];
 
+  // fetch item's images
   if (item.images) {
     let images = item.images;
     images.forEach(function(i) {
@@ -237,9 +237,9 @@ async function displayThisItem(item) {
     itemPrice.push(x.price);
   });
 
-  console.log(itemPrice);
-  
-  let itemSection = document.querySelector('#item-section');
+  console.log("url = " + item.url);
+
+  let itemSection = document.querySelector("#item-section");
   console.log(itemSection);
 }
 
@@ -273,9 +273,10 @@ async function displayThisItem(item) {
 //       </div>
 //     `;
 
-function moveWindow() {
-  window.location.href = "product.html";
-}
+// function moveWindow(item) {
+//    window.location.href = "product.html";
+//    window.onload = displayThisItem(item);
+// }
 
 window.onload = readyPage();
 // window.addEventListener("scroll", scrollThrottler);
