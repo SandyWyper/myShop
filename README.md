@@ -10,3 +10,8 @@ The idea is to navigate to a blank template page where I'll be able to display w
 If you go to `function fetchThisItem` you will see that there's a call to the shopify api and `displayThisItem()` is run on success.  After that it goes a bit weird.  The console.log of the result doesn't expand in the console window, but i can still access it to get info.  See the console log for price.  But i can't getElementById() on ths new page....
 
 Tried to make the changing of the page asycronous but not sure it has made any difference. 
+
+to get this on your machine:
+* clone this repo
+* npm install (should grab all dependencies needed)
+* npm run start:dev (should start a dev server)
