@@ -148,7 +148,7 @@ h3 {
 /*slim nav*/
 /*---------------------------------------------*/
 .slim-box {
-  position: fixed;
+  /* position: fixed; */
   display: flex;
   /*flex-direction: column;*/
   top: 0px;
@@ -494,7 +494,10 @@ h3 {
   height: 100%;
 }
 
-
+.item-link a {
+    text-decoration: none;
+    color: inherit;
+}
 .item-link:hover {
   cursor: pointer;
 }
@@ -527,16 +530,21 @@ h3 {
 
 .buy-buttons {
   margin: 20px 0;
+  display: flex;
+  justify-content: center;
+
 }
 
 .social {
   display: flex;
   justify-content: center;
-  letter-spacing: 1.5px;
-
+  letter-spacing: 1.1px;
   margin: 20px 0;
 }
-
+.social p{
+font-size: 13px;
+padding: 0 4px;
+}
 .btn1 {
   width: 185px;
   height: 45px;
@@ -547,6 +555,7 @@ h3 {
   font-weight: 800;
   letter-spacing: 2px;
   box-shadow: none;
+  margin: 0 10px;
 }
 
 .btn2 {
@@ -559,13 +568,61 @@ h3 {
   font-weight: 800;
   letter-spacing: 2px;
   box-shadow: none;
+
 }
 
-/* .item-section {
-    height:500px;
-    background-color: red;
-} */
+.item-section {
+padding: 80px 0 40px 0; 
+display: flex;
+}
 
+.product-image img {
+    width:565px;
+    height:565px;
+}
+.product-details {
+    display: block;
+    text-align: center;
+    padding: 45px 25px 0 45px;
+    line-height: 1.4;
+    font-weight: 400;
+    font-style: normal;
+}
+.product-details .price {
+    font-size: 18px;
+    margin: 15px 0 0 0;
+}
+.product-details .tax{
+    margin: 15px 0 25px 0;    
+}
+
+.product-details h1 {
+    margin-bottom: 15px;
+    font-size: 36px;
+}
+.product-details .product-description {
+    font-family: var(--fontTwo);
+    line-height: 1.6;
+    text-align: left;
+    margin: 45px 0 15px 0;
+}
+.product-details .product-description h2 {
+    text-align: center;
+    margin: 0 0 54px 0;
+}
+.dash {
+    text-align: center;
+}
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+    align-items: center;
+}
+footer a {
+    text-decoration: none;
+    color: inherit;
+}
 @media only screen and (max-width: 600px) {
   .large-nav {
     display: none;

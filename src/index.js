@@ -11,15 +11,24 @@ const client = Client.buildClient({
 });
 
 function readyPage() {
-  document.querySelector(".wrapper").addEventListener("click", handleClick);
+  // console.log(window.location.pathname === "/");
 
-  // sets listeners for buttons requiring js actions
-  // document.querySelector("#open-menu").addEventListener("click", openSideMenu);
-  // document.querySelector("#close-menu").addEventListener("click", closeSideMenu);
+  if (window.location.pathname === "/") {
+    // document.querySelector(".wrapper").addEventListener("click", handleClick);
 
-  displayFeaturedCollection(idTags.musicCollection);
-  fetchFeaturedItem(idTags.xmasToy);
+    // sets listeners for buttons requiring js actions
+    // document.querySelector("#open-menu").addEventListener("click", openSideMenu);
+    // document.querySelector("#close-menu").addEventListener("click", closeSideMenu);
+
+    displayFeaturedCollection(idTags.musicCollection);
+    fetchFeaturedItem(idTags.xmasToy);
+  } else if (window.location.pathname.substring(1, 8) === "product") {
+    fetchProductInfo();
+  } else if (window.location.pathname.substring(1, 11) === "collection") {
+    console.log("yup, this is a collection page");
+  }
 }
+
 // Fetch all products in your shop
 // client.product.fetchAll().then((products) => {
 //     // Do something with the products
@@ -38,51 +47,6 @@ function closeSideMenu() {
   document.querySelector("#wrapper").style.marginRight = "0";
 }
 
-// // nav bar transform
-// // --------------------------------------------------------------------------------
-// function checkScroll(e) {
-//     //monitors the scroll position of the page to toggle a class that changes the nav-bar
-//     const scrolls = window.scrollY
-
-//     if (scrolls > (headerLarge.scrollHeight - 100) && headerLarge.classList.contains("reveal")) {
-//         headerLarge.classList.toggle('reveal');
-//         headerSlim.classList.toggle('reveal');
-//     } else if (scrolls < (headerLarge.scrollHeight - 100) && !headerLarge.classList.contains("reveal")) {
-//         headerLarge.classList.toggle('reveal');
-//         headerSlim.classList.toggle('reveal');
-//     }
-
-// }
-
-//scroll event throttler to stop the browser from overworking
-// let scrollTimeout;
-
-// function scrollThrottler() {
-//     // ignore scroll events as long as an checkScroll execution is in the queue
-//     if (!scrollTimeout) {
-//         scrollTimeout = setTimeout(function() {
-//             scrollTimeout = null;
-//             checkScroll();
-
-//             // The checkScroll will execute at a rate of
-//         }, 200);
-//     }
-// }
-
-// ------------------------------------------------------------------------------------
-// JQuery smoothScroll  -- thanks to Traversy Media
-
-// function smoothScroll(e) {
-//     if (this.hash !== '') {
-//         e.preventDefault();
-
-//         const hash = this.hash;
-
-//         $('html, body').animate({
-//             scrollTop: $(hash).offset().top
-//         }, 800);
-//     }
-// }
 
 function displayFeaturedCollection(id) {
   // Fetch a single collection by ID, including its products
@@ -117,14 +81,19 @@ function displayCollection(res) {
 
     displayHere.innerHTML += `
                 <div class="image-mount">  
-                  <img src="${imageSrc[0]}" class="item-link" data-id="${
-      item.id
-    }" alt="${item.title}">
+                  <a href="./product/${item.handle}.html">
+                    <img src="${imageSrc[0]}" class="item-link" alt="${
+      item.title
+    }">
+                  </a>  
                 </div>
                 <div class="item-name-price">
-                    <p class="item-link" ><em>${
-                      item.title
-                    }</em> - <strong> &pound;${Math.round(itemPrice[0])}</p>
+                    <p class="item-link" >
+                      <a href="./product/${item.handle}.html"><em>${
+      item.title
+    }</em> - <strong> &pound;${Math.round(itemPrice[0])}
+                      </a>
+                    </p>
                 </div>
                 `;
     counter++;
@@ -161,8 +130,8 @@ function displayFeaturedItem(item) {
 
   itemSection.innerHTML += `
     <div class="featured-item-image">
-      <a href="../product.html">
-        <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${item.title}">
+      <a href="./product/${item.handle}.html">
+        <img src="${imageSrc[0]}" class="item-link" alt="${item.title}">
       </a>
     </div>
     <div class="f-item-details">
@@ -177,7 +146,9 @@ function displayFeaturedItem(item) {
         <button class="btn2">BUY NOW</button>
       </div>
       <div>
-        <p class="full-details item-link"><a href="product.html">Full details &rarr;</a></p>
+        <p class="full-details item-link"><a href="./product/${
+          item.handle
+        }.html">Full details &rarr;</a></p>
         <div class="social">
           <p><i class="fab fa-facebook-f"></i> Share<p>
                 &nbsp;
@@ -190,36 +161,32 @@ function displayFeaturedItem(item) {
   `;
 }
 
-function handleClick(event) {
-  event.preventDefault();
 
-  // if the click target has a class of 'item-link' then extract id of that item and pass to next func.
-  if (event.target.classList.contains("item-link")) {
-    // console.log("testing");
-    let productLink = event.target;
-    // console.log(productLink.dataset.id);
-    let id = productLink.dataset.id;
 
-    fetchThisItem(id);
-  }
-}
 
-function fetchThisItem(id) {
-  // Fetch a single product by ID
+
+
+
+
+
+
+
+
+
+function fetchProductInfo() {
+  let itemSection = document.querySelector("#item-section");
+  let productId = itemSection.dataset.id;
+  //   // Fetch a single product by ID
   client.product
-    .fetch(id)
+    .fetch(productId)
     .then(product => {
       // Do something with the product
       displayThisItem(product);
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("fetching error", err));
 }
 
 function displayThisItem(item) {
-  // moveWindow();
-
-  console.log(item);
-
   let imageSrc = [];
 
   // fetch item's images
@@ -236,47 +203,37 @@ function displayThisItem(item) {
   itemVariants.forEach(function(x) {
     itemPrice.push(x.price);
   });
-
-  console.log("url = " + item.url);
-
   let itemSection = document.querySelector("#item-section");
-  console.log(itemSection);
+
+  itemSection.innerHTML += `
+        <div class="product-image">
+          <img src="${imageSrc[0]}" alt="${item.title}">
+        </div>
+        <div class="product-details">
+          <div class="product-price">
+            <h1>${item.title}</h1>
+            <h3 class="price">&pound;${itemPrice[0]}</h3>
+            <p class="tax">Tax Included.</p>
+            <p>________</p>
+          </div>
+          <div class="buy-buttons">
+            <button class="btn1">ADD TO CART</button>
+            <button class="btn2">BUY NOW</button>
+          </div>
+          <div>
+            <div class="product-description">
+              ${item.descriptionHtml}
+            </div>
+            <div class="social">
+              <p><i class="fab fa-facebook-f"></i> Share<p>
+                    &nbsp;
+              <p><i class="fab fa-twitter"></i> Tweet</p>
+                    &nbsp;
+              <p><i class="fab fa-pinterest-p"></i> Pin it</p>
+            </div>
+          </div>
+        </div>
+      `;
 }
 
-// console.log(itemSection);
-
-// itemSection.innerHTML += `
-//       <div class="item-image">
-//         <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${item.title}">
-//       </div>
-//       <div class="f-item-details">
-//         <div class="f-title-price">
-//           <h2>${item.title}</h2>
-//           <h3>&pound;${itemPrice[0]}</h3>
-//           <p>Tax Included.</p>
-//           <p>________</p>
-//         </div>
-//         <div class="buy-buttons">
-//           <button class="btn1">ADD TO CART</button>
-//           <button class="btn2">BUY NOW</button>
-//         </div>
-//         <div>
-//           <p class="full-details item-link">Full details &rarr;</p>
-//           <div class="social">
-//             <p><i class="fab fa-facebook-f"></i> Share<p>
-//                   &nbsp;
-//             <p><i class="fab fa-twitter"></i> Tweet</p>
-//                   &nbsp;
-//             <p><i class="fab fa-pinterest-p"></i> Pin it</p>
-//           </div>
-//         </div>
-//       </div>
-//     `;
-
-// function moveWindow(item) {
-//    window.location.href = "product.html";
-//    window.onload = displayThisItem(item);
-// }
-
 window.onload = readyPage();
-// window.addEventListener("scroll", scrollThrottler);
