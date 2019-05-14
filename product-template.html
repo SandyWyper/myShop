@@ -21,46 +21,43 @@
 
   <body>
 
-    <header>
-      <div id="slim-box" class="slim-box">
-        <div class="left-slim"></div>
-        <nav class="slim-nav">
-          <span class="open-menu" id="open-menu">
-            <a>
-              <svg>
-                <path d="M0,5 30,5" stroke="#211e20" stroke-width="5" />
-                <path d="M0,14 30,14" stroke="#211e20" stroke-width="5" />
-                <path d="M0,23 30,23" stroke="#211e20" stroke-width="5" />
-              </svg>
-            </a>
-          </span>
-          <a class="home-button" href="#home">
-            <img src="../images/logo2/logo_transparent.png" alt="logo" />
-          </a>
-          <ul class="nav-links">
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">CATALOG</a></li>
-            <li>
-              <a href="#"><i class="fas fa-search"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-shopping-cart"></i></a>
-            </li>
-          </ul>
-        </nav>
-        <div class="right-slim"></div>
-      </div>
-      <!--class = slim-box-->
-      <!-- hidden side menu -->
-      <div class="side-menu" id="side-menu">
-        <a id="close-menu" class="close-menu">&times;</a>
-        <a href="#" class="fix">ANCHOR1</a>
-        <a href="#" class="fix">ANCHOR2</a>
-        <a href="FACEBOOK PAGE LINK" rel="noopener" target="_blank" class="fix"
-          ><i class="fab fa-facebook-square"></i
-        ></a>
-      </div>
-    </header>
+      <header>
+          <div id="slim-box" class="slim-box">
+            <div class="left-slim"></div>
+            <nav class="slim-nav">
+              <span class="open-menu" id="open-menu">
+                <a>
+                  <svg>
+                    <path d="M0,5 30,5" stroke="#211e20" stroke-width="5" />
+                    <path d="M0,14 30,14" stroke="#211e20" stroke-width="5" />
+                    <path d="M0,23 30,23" stroke="#211e20" stroke-width="5" />
+                  </svg>
+                </a>
+              </span>
+              <a class="home-button" href="https://sandywyper.github.io/myShop/">
+                <img src="../images/logo2/logo_transparent.png" alt="logo" />
+              </a>
+              <ul class="nav-links">
+                  <li><a href="https://sandywyper.github.io/myShop/">HOME</a></li>
+                  <li><a href="../allProducts.html">CATALOG</a></li>
+                  <li><a href="#"><i class="fas fa-search"></i></a></li>
+                  <li id="open-cart"><i class="fas fa-shopping-cart"></i></li>
+              </ul>
+            </nav>
+            <div class="right-slim"></div>
+          </div>
+          <!--class = slim-box-->
+          <!-- hidden side menu -->
+          <div class="side-menu" id="side-menu">
+              <div class="your-cart">
+                  <h2>Your cart</h2>
+                  <a id="close-cart" class="close-cart">&times;</a>
+              </div>
+              <div id="cart-contents" class="cart-contents">
+                  
+              </div>
+          </div>
+        </header>
     <!--when is mobile veiw, wrapper is moved down 100px by this div-->
     <div class="mobile-spacing"></div>
     <div class="wrapper" id="wrapper">
