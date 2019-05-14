@@ -42,7 +42,8 @@ function readyPage() {
 
   document.querySelector("body").addEventListener("click", handleClick);
   console.log(window.location.pathname);
-  if (window.location.pathname.length === '/myShop/') {
+  if (window.location.pathname === '/myShop/') {
+    // if (window.location.pathname === '/') {
     // sets listeners for buttons requiring js actions
 
     displayFeaturedCollection(idTags.musicCollection);
