@@ -41,8 +41,8 @@ function readyPage() {
   document.querySelector("#close-cart").addEventListener("click", closeCart);
 
   document.querySelector("body").addEventListener("click", handleClick);
-
-  if (window.location.pathname.length < 1 ) {
+console.log(window.location.pathname);
+  if (window.location.pathname.length < 2 ) {
     // sets listeners for buttons requiring js actions
 
     displayFeaturedCollection(idTags.musicCollection);
@@ -51,13 +51,13 @@ function readyPage() {
     fetchProductInfo();
   } else if (window.location.pathname.substring(1, 11) === "collection") {
     console.log("yup, this is a collection page");
-  } else if ()
+  } 
   // Fetch all products in your shop
   client.product
     .fetchAll()
     .then(products => {
       // Do something with the products
-      console.log(products);
+      // console.log(products);
     })
     .catch(err => console.log(err));
 }
