@@ -41,28 +41,52 @@ function readyPage() {
   document.querySelector("#close-cart").addEventListener("click", closeCart);
 
   document.querySelector("body").addEventListener("click", handleClick);
-  console.log(window.location.pathname);
-  if (window.location.pathname === '/myShop/') {
-    // if (window.location.pathname === '/') {
+
+  if (window.location.pathname === "/myShop/") {
     // sets listeners for buttons requiring js actions
 
     displayFeaturedCollection(idTags.musicCollection);
     fetchFeaturedItem(idTags.xmasToy);
-  } else if (window.location.pathname.substring(1, 8) === "product") {
+  } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
     fetchProductInfo();
-  } else if (window.location.pathname.substring(1, 11) === "collection") {
+  } else if (
+    window.location.pathname.substring(1, 18) === "myShop/collection"
+  ) {
     console.log("yup, this is a collection page");
-  } 
+  } else if (window.location.pathname.substring(1, 6) === "allPr") {
+    fetchAll();
+  }
+}
+
+//   //dev version
+//     if (window.location.pathname === '/') {
+//     // sets listeners for buttons requiring js actions
+
+//     displayFeaturedCollection(idTags.musicCollection);
+//     fetchFeaturedItem(idTags.xmasToy);
+//   } else if (window.location.pathname.substring(1, 8) === "product") {
+//     fetchProductInfo();
+//   } else if (window.location.pathname.substring(1, 11) === "collection") {
+//     console.log("yup, this is a collection page");
+//   } else if (window.location.pathname.substring(1, 6) === "allPr") {
+//     fetchAll()
+//   }
+// }
+
+function fetchAll() {
   // Fetch all products in your shop
   client.product
     .fetchAll()
     .then(products => {
       // Do something with the products
-      // console.log(products);
+      displayAll(products);
     })
     .catch(err => console.log(err));
 }
 
+function displayAll(products) {
+  console.log(products);
+}
 function openCart() {
   // reveal the side menu.
   document.querySelector("#side-menu").style.width = "400px";
