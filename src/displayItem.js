@@ -22,6 +22,7 @@ function displayThisItem(item) {
   let variantId = firstVariant.id;
   let itemSection = document.querySelector("#item-section");
 
+console.log(item.id, variantId);
 
   itemSection.innerHTML += `
           <div class="product-image">

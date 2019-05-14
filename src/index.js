@@ -41,25 +41,23 @@ function readyPage() {
   document.querySelector("#close-cart").addEventListener("click", closeCart);
 
   document.querySelector("body").addEventListener("click", handleClick);
-  
-  if (window.location.pathname === "/") {
+
+  if (window.location.pathname.length < 1 ) {
     // sets listeners for buttons requiring js actions
-    
+
     displayFeaturedCollection(idTags.musicCollection);
     fetchFeaturedItem(idTags.xmasToy);
   } else if (window.location.pathname.substring(1, 8) === "product") {
-   
     fetchProductInfo();
   } else if (window.location.pathname.substring(1, 11) === "collection") {
-   
     console.log("yup, this is a collection page");
-  }
+  } else if ()
   // Fetch all products in your shop
   client.product
     .fetchAll()
     .then(products => {
       // Do something with the products
-      // console.log(products);
+      console.log(products);
     })
     .catch(err => console.log(err));
 }
@@ -222,64 +220,6 @@ function fetchProductInfo() {
     .catch(err => console.log("fetching error", err));
 }
 
-// function displayThisItem(item) {
-//   let imageSrc = [];
-// // console.log(item);
-
-// // fetch item's images
-//   if (item.images) {
-//     let images = item.images;
-//     images.forEach(function(i) {
-//       imageSrc.push(i.src);
-//     });
-//   }
-
-//   //retrieve item price
-//   let itemPrice = [];
-//   let itemVariants = item.variants;
-//   itemVariants.forEach(function(x) {
-//     itemPrice.push(x.price);
-//   });
-
-//     //TODO: handle cases with multiple variants
-//     let firstVariant = item.variants[0];
-//     let variantId = firstVariant.id;
-//   let itemSection = document.querySelector("#item-section");
-
-//   itemSection.innerHTML += `
-//         <div class="product-image">
-//           ${ item.images.map( image => {
-//             // console.log( image )
-//             return `<img src="${image.src}" alt="${image.altText}">`
-//           } )}
-//         </div>
-//         <div class="product-details">
-//           <div class="product-price">
-//             <h1>${item.title}</h1>
-//             <h3 class="price">&pound;${itemPrice[0]}</h3>
-//             <p class="tax">Tax Included.</p>
-//             <p>________</p>
-//           </div>
-//           <div class="buy-buttons">
-//           <button class="btn1 add-to-cart" data-id="${variantId}">ADD TO CART</button>
-//             <button class="btn2">BUY NOW</button>
-//           </div>
-//           <div>
-//             <div class="product-description">
-//               ${item.descriptionHtml}
-//             </div>
-//             <div class="social">
-//               <p><i class="fab fa-facebook-f"></i> Share<p>
-//                     &nbsp;
-//               <p><i class="fab fa-twitter"></i> Tweet</p>
-//                     &nbsp;
-//               <p><i class="fab fa-pinterest-p"></i> Pin it</p>
-//             </div>
-//           </div>
-//         </div>
-//       `;
-// }
-
 function handleClick(event) {
   // if the click target has a class of 'item-link' then extract id of that item and pass to next func.
   if (event.target.classList.contains("add-to-cart")) {
@@ -291,13 +231,17 @@ function handleClick(event) {
     let buttonClicked = event.target;
     let id = buttonClicked.dataset.id;
 
-    console.log("click");
+    // console.log("click");
     addItemAndCheckout(id);
   } else if (event.target.classList.contains("less")) {
     let buttonClicked = event.target;
     let id = buttonClicked.dataset.id;
-    console.log("click");
     removeItemFromCart(id);
+  } else if (event.target.classList.contains("checkout")) {
+    let buttonClicked = event.target;
+    let url = buttonClicked.dataset.url;
+    console.log(url);
+    window.location.href = `${url}`;
   }
 }
 
@@ -321,32 +265,24 @@ function addItemAndCheckout(id) {
   client.checkout
     .addLineItems(checkoutId, lineItems)
     .then(checkout => {
-      console.log(checkout.webUrl);
       window.location.href = `${checkout.webUrl}`;
     })
     .catch(err => console.log("problem adding item to cart", err));
 }
 
-
-
 function addItemToCart(id) {
-
   const lineItems = {
     variantId: id,
     quantity: 1
   };
 
-
   client.checkout
     .addLineItems(checkoutId, lineItems)
     .then(checkout => {
-      // debugger;
-      console.log(checkout); // Checkout with two additional line items
-      // console.log(checkout.lineItems); // Line items on the checkout
+      populateCartMenu(checkout);
+      openCart();
     })
     .catch(err => console.log("problem adding item to cart", err));
-
-      openCart();
 }
 // addItemToCart(id);}
 
@@ -384,7 +320,9 @@ function populateCartMenu(cart) {
         <h3>&pound;${cart.subtotalPrice}</h3>
       </div>
       <p>Tax included and shipping calculated at checkout</p>
-      <button>checkout &rarr;</button>
+      <button class="checkout" data-url="${
+        cart.webUrl
+      }">checkout &rarr;</button>
     </div> 
     `;
   }
