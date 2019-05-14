@@ -41,8 +41,8 @@ function readyPage() {
   document.querySelector("#close-cart").addEventListener("click", closeCart);
 
   document.querySelector("body").addEventListener("click", handleClick);
-console.log(window.location.pathname);
-  if (window.location.pathname.length < 2 ) {
+  console.log(window.location.pathname);
+  if (window.location.pathname.length === '/myShop/') {
     // sets listeners for buttons requiring js actions
 
     displayFeaturedCollection(idTags.musicCollection);
