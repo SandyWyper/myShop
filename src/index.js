@@ -52,6 +52,8 @@ function readyPage() {
   } else if (
     window.location.pathname.substring(1, 18) === "myShop/collection"
   ) {
+      fetchCollection();
+
     console.log("yup, this is a collection page");
   } else if (window.location.pathname.substring(1, 6) === "allPr") {
     fetchAll();
@@ -67,6 +69,7 @@ function readyPage() {
 //   } else if (window.location.pathname.substring(1, 8) === "product") {
 //     fetchProductInfo();
 //   } else if (window.location.pathname.substring(1, 11) === "collection") {
+//     fetchCollection();
 //     console.log("yup, this is a collection page");
 //   } else if (window.location.pathname.substring(1, 6) === "allPr") {
 //     fetchAll()
@@ -110,7 +113,62 @@ function displayFeaturedCollection(id) {
     .catch(err => console.log(err));
 }
 
+function fetchCollection() {
+  let collectionSection = document.querySelector("#collection-section");
+  let collectionId = collectionSection.dataset.id;
+   // Fetch a single collection by ID, including its products
+   client.collection
+   .fetchWithProducts(collectionId)
+   .then(collection => {
+     // Do something with the collection
+     displayThisCollection(collection.products);
+   })
+   .catch(err => console.log(err));
+}
+function displayThisCollection(res) {
+  console.log(res);
+  let counter = 1;
+
+  res.forEach(function(item) {
+    //retrieve images src urls
+    let imageSrc = [];
+    let images = item.images;
+    images.forEach(function(i) {
+      imageSrc.push(i.src);
+    });
+
+    //retrieve item price
+    let itemPrice = [];
+    let itemVariants = item.variants;
+    itemVariants.forEach(function(x) {
+      itemPrice.push(x.price);
+    });
+
+    let displayHere = document.querySelector(`#item-${counter}`);
+
+    displayHere.innerHTML += `
+                <div class="image-mount">  
+                  <a href="../product/${item.handle}.html">
+                    <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${
+      item.title
+    }">
+                  </a>  
+                </div>
+                <div class="item-name-price">
+                    <p class="item-link" >
+                      <a href="../product/${item.handle}.html"><em>${
+      item.title
+    }</em> - <strong> &pound;${Math.round(itemPrice[0])}
+                      </a>
+                    </p>
+                </div>
+                `;
+    counter++;
+  });
+}
+
 function displayCollection(res) {
+  console.log(res);
   let counter = 1;
 
   res.forEach(function(item) {
@@ -133,7 +191,7 @@ function displayCollection(res) {
     displayHere.innerHTML += `
                 <div class="image-mount">  
                   <a href="./product/${item.handle}.html">
-                    <img src="${imageSrc[0]}" class="item-link" alt="${
+                    <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${
       item.title
     }">
                   </a>  
@@ -162,16 +220,16 @@ function fetchFeaturedItem(id) {
     .catch(err => console.log(err));
 }
 
-function getVariantBuyUrl(id) {
-  // Fetch a single product by ID
+// function getVariantBuyUrl(id) {
+//   // Fetch a single product by ID
 
-  client.product
-    .fetch(id)
-    .then(product => {
-      console.log(product);
-    })
-    .catch(err => console.log(err));
-}
+//   client.product
+//     .fetch(id)
+//     .then(product => {
+//       console.log(product);
+//     })
+//     .catch(err => console.log(err));
+// }
 
 function displayFeaturedItem(item) {
   // console.log(item);
