@@ -42,44 +42,43 @@ function readyPage() {
 
   document.querySelector("body").addEventListener("click", handleClick);
 
-  if (window.location.pathname === "/myShop/") {
-    // sets listeners for buttons requiring js actions
-
-    displayFeaturedCollection(idTags.musicCollection);
-    fetchFeaturedItem(idTags.xmasToy);
-  } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
-    fetchProductInfo();
-  } else if (
-    window.location.pathname.substring(1, 18) === "myShop/collection"
-  ) {
-      fetchCollection();
-
-    console.log("yup, this is a collection page");
-  } else if (window.location.pathname.substring(1, 6) === "allPr") {
-    fetchAll();
-  }
-}
-
-//   //dev version
-//     if (window.location.pathname === '/') {
+//   if (window.location.pathname === "/myShop/") {
 //     // sets listeners for buttons requiring js actions
 
 //     displayFeaturedCollection(idTags.musicCollection);
 //     fetchFeaturedItem(idTags.xmasToy);
-//   } else if (window.location.pathname.substring(1, 8) === "product") {
+//   } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
 //     fetchProductInfo();
-//   } else if (window.location.pathname.substring(1, 11) === "collection") {
-//     fetchCollection();
+//   } else if (
+//     window.location.pathname.substring(1, 18) === "myShop/collection"
+//   ) {
+//       fetchCollection();
+
 //     console.log("yup, this is a collection page");
 //   } else if (window.location.pathname.substring(1, 6) === "allPr") {
-//     fetchAll()
+//     fetchAll();
 //   }
 // }
+
+//   //dev version
+    if (window.location.pathname === '/') {
+    // sets listeners for buttons requiring js actions
+
+    fetchFeaturedCollection(idTags.musicCollection);
+    fetchFeaturedItem(idTags.xmasToy);
+  } else if (window.location.pathname.substring(1, 8) === "product") {
+    fetchProductInfo();
+  } else if (window.location.pathname.substring(1, 11) === "collection") {
+    fetchCollection();
+  } else if (window.location.pathname.substring(1, 6) === "allPr") {
+    fetchAll()
+  }
+}
 
 function fetchAll() {
   // Fetch all products in your shop
   client.product
-    .fetchAll()
+    .fetchAll(30)
     .then(products => {
       // Do something with the products
       displayAll(products);
@@ -88,27 +87,61 @@ function fetchAll() {
 }
 
 function displayAll(products) {
-  console.log(products);
+  // console.log(products);
+ products.forEach(function(p) {
+
+  const pImage = p.images[0].src;    
+  const pPrice = p.variants[0].price;
+  let displaySpace = document.querySelector('#products-section');
+
+  displaySpace.innerHTML += `
+    <div class="each-product">
+      <div class="image-mount">
+        <a href="../product/${p.handle}.html">
+          <img src="${pImage}" class="item-link" data-id="${p.id}" alt="${p.title}">
+        </a>  
+      </div>
+      <div class="item-name-price">
+        <p class="item-link p-text" >
+          <a href="../product/${p.handle}.html">
+            <em>${p.title}</em> - <strong> &pound;${Math.round(pPrice)}</strong>
+          </a>
+        </p>
+      </div>
+    </div>
+  `
+ });
+
 }
+
+
+
+
+
+
+
+
+
 function openCart() {
   // reveal the side menu.
   document.querySelector("#side-menu").style.width = "400px";
-  // document.querySelector("#body").style.left = "400px";
 }
 
 function closeCart() {
   // close the side menu
   document.querySelector("#side-menu").style.width = "0";
-  // document.querySelector("#body").style.marginRight = "0";
 }
 
-function displayFeaturedCollection(id) {
+
+
+
+function fetchFeaturedCollection(id) {
   // Fetch a single collection by ID, including its products
   client.collection
     .fetchWithProducts(id)
     .then(collection => {
       // Do something with the collection
-      displayCollection(collection.products);
+      displayFeaturedCollection(collection.products);
     })
     .catch(err => console.log(err));
 }
@@ -126,7 +159,7 @@ function fetchCollection() {
    .catch(err => console.log(err));
 }
 function displayThisCollection(res) {
-  console.log(res);
+  // console.log(res);
   let counter = 1;
 
   res.forEach(function(item) {
@@ -158,7 +191,7 @@ function displayThisCollection(res) {
                     <p class="item-link" >
                       <a href="../product/${item.handle}.html"><em>${
       item.title
-    }</em> - <strong> &pound;${Math.round(itemPrice[0])}
+    }</em> - <strong> &pound;${Math.round(itemPrice[0])}</strong>
                       </a>
                     </p>
                 </div>
@@ -167,8 +200,8 @@ function displayThisCollection(res) {
   });
 }
 
-function displayCollection(res) {
-  console.log(res);
+function displayFeaturedCollection(res) {
+  // console.log(res);
   let counter = 1;
 
   res.forEach(function(item) {
@@ -200,7 +233,7 @@ function displayCollection(res) {
                     <p class="item-link" >
                       <a href="./product/${item.handle}.html"><em>${
       item.title
-    }</em> - <strong> &pound;${Math.round(itemPrice[0])}
+    }</em> - <strong> &pound;${Math.round(itemPrice[0])}</strong>
                       </a>
                     </p>
                 </div>
