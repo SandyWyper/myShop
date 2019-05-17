@@ -36,7 +36,8 @@ function readyPage() {
       render.displayCollection(collection.products);
     });
   } else if (window.location.pathname.substring(1, 15) === "myShop/allProd") {
-    // if number of porducts is ommited then the default is 20
+    
+    const numberOfProducts = 30;
     productActions.fetchAll(numberOfProducts).then(render.displayAll);
   }
 }
