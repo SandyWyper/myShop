@@ -3,6 +3,9 @@
 import Client from "shopify-buy";
 import ids from "./ids";
 import displayThisItem from "./displayItem";
+import productActions from "./product-actions";
+import render from "./render";
+
 
 const idTags = ids.ids;
 
@@ -42,84 +45,45 @@ function readyPage() {
 
   document.querySelector("body").addEventListener("click", handleClick);
 
-//   if (window.location.pathname === "/myShop/") {
-//     // sets listeners for buttons requiring js actions
+  //   if (window.location.pathname === "/myShop/") {
+  //     // sets listeners for buttons requiring js actions
 
-//     displayFeaturedCollection(idTags.musicCollection);
-//     fetchFeaturedItem(idTags.xmasToy);
-//   } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
-//     fetchProductInfo();
-//   } else if (
-//     window.location.pathname.substring(1, 18) === "myShop/collection"
-//   ) {
-//       fetchCollection();
+  //     displayFeaturedCollection(idTags.musicCollection);
+  //     fetchFeaturedItem(idTags.xmasToy);
+  //   } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
+  //     fetchProductInfo();
+  //   } else if (
+  //     window.location.pathname.substring(1, 18) === "myShop/collection"
+  //   ) {
+  //       fetchCollection();
 
-//     console.log("yup, this is a collection page");
-//   } else if (window.location.pathname.substring(1, 6) === "allPr") {
-//     fetchAll();
-//   }
-// }
+  //     console.log("yup, this is a collection page");
+  //   } else if (window.location.pathname.substring(1, 6) === "allPr") {
+  //     fetchAll();
+  //   }
+  // }
 
-//   //dev version
-    if (window.location.pathname === '/') {
-    // sets listeners for buttons requiring js actions
-
-    fetchFeaturedCollection(idTags.musicCollection);
-    fetchFeaturedItem(idTags.xmasToy);
+  //   //dev version
+  if (window.location.pathname === "/") {
+    // fetchFeaturedCollection(idTags.musicCollection);
+    productActions
+      .fetchFeaturedCollection(idTags.musicCollection)
+      .then(collection => {
+        displayFeaturedCollection(collection.products);
+      });
+    productActions.fetchFeaturedItem(idTags.xmasToy).then(displayFeaturedItem);
   } else if (window.location.pathname.substring(1, 8) === "product") {
-    fetchProductInfo();
+    productActions.fetchProduct().then(displayThisItem);
   } else if (window.location.pathname.substring(1, 11) === "collection") {
-    fetchCollection();
+    productActions.fetchCollection().then(collection => {
+      render.displayCollection(collection.products);
+    });
   } else if (window.location.pathname.substring(1, 6) === "allPr") {
-    fetchAll()
+    const numberOfProducts = 30;
+    // if number of porducts is ommited then the default is 20
+    productActions.fetchAll(numberOfProducts).then(render.displayAll);
   }
 }
-
-function fetchAll() {
-  // Fetch all products in your shop
-  client.product
-    .fetchAll(30)
-    .then(products => {
-      // Do something with the products
-      displayAll(products);
-    })
-    .catch(err => console.log(err));
-}
-
-function displayAll(products) {
-  // console.log(products);
- products.forEach(function(p) {
-
-  const pImage = p.images[0].src;    
-  const pPrice = p.variants[0].price;
-  let displaySpace = document.querySelector('#products-section');
-
-  displaySpace.innerHTML += `
-    <div class="each-product">
-      <div class="image-mount">
-        <a href="../product/${p.handle}.html">
-          <img src="${pImage}" class="item-link" data-id="${p.id}" alt="${p.title}">
-        </a>  
-      </div>
-      <div class="item-name-price">
-        <p class="item-link p-text" >
-          <a href="../product/${p.handle}.html">
-            <em>${p.title}</em> - <strong> &pound;${Math.round(pPrice)}</strong>
-          </a>
-        </p>
-      </div>
-    </div>
-  `
- });
-
-}
-
-
-
-
-
-
-
 
 
 function openCart() {
@@ -134,71 +98,6 @@ function closeCart() {
 
 
 
-
-function fetchFeaturedCollection(id) {
-  // Fetch a single collection by ID, including its products
-  client.collection
-    .fetchWithProducts(id)
-    .then(collection => {
-      // Do something with the collection
-      displayFeaturedCollection(collection.products);
-    })
-    .catch(err => console.log(err));
-}
-
-function fetchCollection() {
-  let collectionSection = document.querySelector("#collection-section");
-  let collectionId = collectionSection.dataset.id;
-   // Fetch a single collection by ID, including its products
-   client.collection
-   .fetchWithProducts(collectionId)
-   .then(collection => {
-     // Do something with the collection
-     displayThisCollection(collection.products);
-   })
-   .catch(err => console.log(err));
-}
-function displayThisCollection(res) {
-  // console.log(res);
-  let counter = 1;
-
-  res.forEach(function(item) {
-    //retrieve images src urls
-    let imageSrc = [];
-    let images = item.images;
-    images.forEach(function(i) {
-      imageSrc.push(i.src);
-    });
-
-    //retrieve item price
-    let itemPrice = [];
-    let itemVariants = item.variants;
-    itemVariants.forEach(function(x) {
-      itemPrice.push(x.price);
-    });
-
-    let displayHere = document.querySelector(`#item-${counter}`);
-
-    displayHere.innerHTML += `
-                <div class="image-mount">  
-                  <a href="../product/${item.handle}.html">
-                    <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${
-      item.title
-    }">
-                  </a>  
-                </div>
-                <div class="item-name-price">
-                    <p class="item-link" >
-                      <a href="../product/${item.handle}.html"><em>${
-      item.title
-    }</em> - <strong> &pound;${Math.round(itemPrice[0])}</strong>
-                      </a>
-                    </p>
-                </div>
-                `;
-    counter++;
-  });
-}
 
 function displayFeaturedCollection(res) {
   // console.log(res);
@@ -224,9 +123,9 @@ function displayFeaturedCollection(res) {
     displayHere.innerHTML += `
                 <div class="image-mount">  
                   <a href="./product/${item.handle}.html">
-                    <img src="${imageSrc[0]}" class="item-link" data-id="${item.id}" alt="${
-      item.title
-    }">
+                    <img src="${imageSrc[0]}" class="item-link" data-id="${
+      item.id
+    }" alt="${item.title}">
                   </a>  
                 </div>
                 <div class="item-name-price">
@@ -242,27 +141,6 @@ function displayFeaturedCollection(res) {
   });
 }
 
-function fetchFeaturedItem(id) {
-  // Fetch a single product by ID
-  client.product
-    .fetch(id)
-    .then(product => {
-      // Do something with the product
-      displayFeaturedItem(product);
-    })
-    .catch(err => console.log(err));
-}
-
-// function getVariantBuyUrl(id) {
-//   // Fetch a single product by ID
-
-//   client.product
-//     .fetch(id)
-//     .then(product => {
-//       console.log(product);
-//     })
-//     .catch(err => console.log(err));
-// }
 
 function displayFeaturedItem(item) {
   // console.log(item);
@@ -323,19 +201,6 @@ function displayFeaturedItem(item) {
   `;
 }
 
-function fetchProductInfo() {
-  let itemSection = document.querySelector("#item-section");
-  let productId = itemSection.dataset.id;
-  //   // Fetch a single product by ID
-  client.product
-    .fetch(productId)
-    .then(product => {
-      // Do something with the product
-      displayThisItem(product);
-    })
-    .catch(err => console.log("fetching error", err));
-}
-
 function handleClick(event) {
   // if the click target has a class of 'item-link' then extract id of that item and pass to next func.
   if (event.target.classList.contains("add-to-cart")) {
@@ -346,8 +211,6 @@ function handleClick(event) {
   } else if (event.target.classList.contains("buy-now")) {
     let buttonClicked = event.target;
     let id = buttonClicked.dataset.id;
-
-    // console.log("click");
     addItemAndCheckout(id);
   } else if (event.target.classList.contains("less")) {
     let buttonClicked = event.target;
