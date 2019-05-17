@@ -1,4 +1,4 @@
-import client from "./shopify-client";
+import client from "../shopify-client";
 
 function fetchAll(n) {
   // Fetch all products in your shop

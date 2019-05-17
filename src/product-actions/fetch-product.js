@@ -1,4 +1,4 @@
-import client from "./shopify-client";
+import client from "../shopify-client";
 
 function fetchProduct() {
     //get the relevant id from the corrisponding html page

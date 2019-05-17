@@ -6,4 +6,4 @@ const ids = {
 	buoy: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzI4MTAzMDM5ODExNjY4"
 };
 
-export default { ids };
+export default  ids;

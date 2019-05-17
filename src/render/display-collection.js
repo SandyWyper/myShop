@@ -1,18 +1,18 @@
 function displayCollection(res) {
-    // console.log(res);
+
     let counter = 1;
   
     res.forEach(function(item) {
       //retrieve images src urls
       let imageSrc = [];
-      let images = item.images;
+      const images = item.images;
       images.forEach(function(i) {
         imageSrc.push(i.src);
       });
   
       //retrieve item price
       let itemPrice = [];
-      let itemVariants = item.variants;
+      const itemVariants = item.variants;
       itemVariants.forEach(function(x) {
         itemPrice.push(x.price);
       });
