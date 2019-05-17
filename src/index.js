@@ -22,7 +22,7 @@ function readyPage() {
     productActions
       .fetchFeaturedCollection(ids.musicCollection)
       .then(collection => {
-        render.displayCollection(collection.products);
+        render.displayFeaturedCollection(collection.products);
       });
     productActions
       .fetchFeaturedItem(ids.xmasToy)
