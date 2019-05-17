@@ -48,7 +48,7 @@ function readyPage() {
 //       .fetchFeaturedCollection(ids.musicCollection)
 //       .then(collection => {
 //         render.displayCollection(collection.products);
-//       });
+//       })
 //     productActions
 //       .fetchFeaturedItem(ids.xmasToy)
 //       .then(render.displayFeaturedProduct);
