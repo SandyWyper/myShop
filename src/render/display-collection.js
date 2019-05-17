@@ -21,7 +21,7 @@ function displayCollection(res) {
   
       displayHere.innerHTML += `
                   <div class="image-mount">  
-                    <a href="../product/${item.handle}.html">
+                    <a href="./product/${item.handle}.html">
                       <img src="${imageSrc[0]}" class="item-link" data-id="${
         item.id
       }" alt="${item.title}">
@@ -29,7 +29,7 @@ function displayCollection(res) {
                   </div>
                   <div class="item-name-price">
                       <p class="item-link" >
-                        <a href="../product/${item.handle}.html"><em>${
+                        <a href="./product/${item.handle}.html"><em>${
         item.title
       }</em> - <strong> &pound;${Math.round(itemPrice[0])}</strong>
                         </a>
