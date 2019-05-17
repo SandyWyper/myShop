@@ -35,7 +35,7 @@ function readyPage() {
     productActions.fetchCollection().then(collection => {
       render.displayCollection(collection.products);
     });
-  } else if (window.location.pathname.substring(1, 6) === "allPr") {
+  } else if (window.location.pathname.substring(1, 15) === "myShop/allProd") {
     // if number of porducts is ommited then the default is 20
     productActions.fetchAll(numberOfProducts).then(render.displayAll);
   }
@@ -47,7 +47,7 @@ function readyPage() {
 //     productActions
 //       .fetchFeaturedCollection(ids.musicCollection)
 //       .then(collection => {
-//         render.displayCollection(collection.products);
+//         render.displayFeaturedCollection(collection.products);
 //       })
 //     productActions
 //       .fetchFeaturedItem(ids.xmasToy)
