@@ -7,7 +7,7 @@ function displayAll(products) {
     displaySpace.innerHTML += `
       <div class="each-product">
         <div class="image-mount">
-          <a href="../product/${p.handle}.html">
+          <a href="./product/${p.handle}.html">
             <img src="${pImage}" class="item-link" data-id="${p.id}" alt="${
       p.title
     }">
@@ -15,7 +15,7 @@ function displayAll(products) {
         </div>
         <div class="item-name-price">
           <p class="item-link p-text" >
-            <a href="../product/${p.handle}.html">
+            <a href="./product/${p.handle}.html">
               <em>${p.title}</em> - <strong> &pound;${Math.round(
       pPrice
     )}</strong>
