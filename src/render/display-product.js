@@ -1,3 +1,6 @@
+import formatPrice from "../lib/price-format"
+
+
 function displayProduct(item) {
     
     let imageSrc = [];
@@ -31,7 +34,7 @@ function displayProduct(item) {
             <div class="product-details">
               <div class="product-price">
                 <h1>${item.title}</h1>
-                <h3 class="price">&pound;${itemPrice[0]}</h3>
+                <h3 class="price">${formatPrice(itemPrice[0])}</h3>
                 <p class="tax">Tax Included.</p>
                 <p>________</p>
               </div>

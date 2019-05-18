@@ -84,6 +84,9 @@ function checkCart() {
   }
 }
 
+
+
+
 function handleClick(event) {
   // store click target
   const buttonClicked = event.target;
@@ -111,5 +114,10 @@ function handleClick(event) {
     window.location.href = `${url}`;
   }
 }
+
+
+
+
+
 
 window.onload = readyPage;

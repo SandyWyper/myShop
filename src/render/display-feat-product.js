@@ -1,3 +1,5 @@
+import formatPrice from "../lib/price-format"
+
 
 function displayFeaturedProduct(item) {
 
@@ -32,7 +34,7 @@ function displayFeaturedProduct(item) {
       <div class="f-item-details">
         <div class="f-title-price">
           <h2>${item.title}</h2>
-          <h3>&pound;${itemPrice[0]}</h3>
+          <h3>${formatPrice(itemPrice[0])}</h3>
           <p>Tax Included.</p>
           <p>________</p>
         </div>
