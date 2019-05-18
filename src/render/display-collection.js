@@ -1,3 +1,6 @@
+import formatPrice from "../lib/price-format"
+
+
 function displayCollection(res) {
 
     let counter = 1;
@@ -31,7 +34,7 @@ function displayCollection(res) {
                       <p class="item-link" >
                         <a href="../product/${item.handle}.html"><em>${
         item.title
-      }</em> - <strong> &pound;${Math.round(itemPrice[0])}</strong>
+      }</em> - <strong>${formatPrice(itemPrice[0])}</strong>
                         </a>
                       </p>
                   </div>

@@ -18,53 +18,53 @@ function readyPage() {
 
 
   // depending on the page pathname -> display corresponding content
-  if (window.location.pathname === "/myShop/") {
-    productActions
-      .fetchFeaturedCollection(ids.musicCollection)
-      .then(collection => {
-        render.displayFeaturedCollection(collection.products);
-      });
-    productActions
-      .fetchFeaturedItem(ids.xmasToy)
-      .then(render.displayFeaturedProduct);
-  } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
-    productActions.fetchProduct().then(render.displayProduct);
-  } else if (
-    window.location.pathname.substring(1, 18) === "myShop/collection"
-  ) {
-    productActions.fetchCollection().then(collection => {
-      render.displayCollection(collection.products);
-    });
-  } else if (window.location.pathname.substring(1, 15) === "myShop/allProd") {
-    
-    const numberOfProducts = 30;
-    productActions.fetchAll(numberOfProducts).then(render.displayAll);
-  }
-}
-
-//   //dev version
-//   if (window.location.pathname === "/") {
-//     // fetchFeaturedCollection(idTags.musicCollection);
+//   if (window.location.pathname === "/myShop/") {
 //     productActions
 //       .fetchFeaturedCollection(ids.musicCollection)
 //       .then(collection => {
 //         render.displayFeaturedCollection(collection.products);
-//       })
+//       });
 //     productActions
 //       .fetchFeaturedItem(ids.xmasToy)
 //       .then(render.displayFeaturedProduct);
-//   } else if (window.location.pathname.substring(1, 8) === "product") {
+//   } else if (window.location.pathname.substring(1, 15) === "myShop/product") {
 //     productActions.fetchProduct().then(render.displayProduct);
-//   } else if (window.location.pathname.substring(1, 11) === "collection") {
+//   } else if (
+//     window.location.pathname.substring(1, 18) === "myShop/collection"
+//   ) {
 //     productActions.fetchCollection().then(collection => {
 //       render.displayCollection(collection.products);
 //     });
-//   } else if (window.location.pathname.substring(1, 6) === "allPr") {
+//   } else if (window.location.pathname.substring(1, 15) === "myShop/allProd") {
+    
 //     const numberOfProducts = 30;
-//     // if number of porducts is ommited then the default is 20
 //     productActions.fetchAll(numberOfProducts).then(render.displayAll);
 //   }
 // }
+
+//   //dev version
+  if (window.location.pathname === "/") {
+    // fetchFeaturedCollection(idTags.musicCollection);
+    productActions
+      .fetchFeaturedCollection(ids.musicCollection)
+      .then(collection => {
+        render.displayFeaturedCollection(collection.products);
+      })
+    productActions
+      .fetchFeaturedItem(ids.xmasToy)
+      .then(render.displayFeaturedProduct);
+  } else if (window.location.pathname.substring(1, 8) === "product") {
+    productActions.fetchProduct().then(render.displayProduct);
+  } else if (window.location.pathname.substring(1, 11) === "collection") {
+    productActions.fetchCollection().then(collection => {
+      render.displayCollection(collection.products);
+    });
+  } else if (window.location.pathname.substring(1, 6) === "allPr") {
+    const numberOfProducts = 30;
+    // if number of porducts is ommited then the default is 20
+    productActions.fetchAll(numberOfProducts).then(render.displayAll);
+  }
+}
 
 function checkCart() {
   const checkoutId = localStorage.getItem("sandy-shop-checkoutId");
@@ -83,6 +83,9 @@ function checkCart() {
       .catch(err => console.log("problem fetching old cart", err));
   }
 }
+
+
+
 
 function handleClick(event) {
   // store click target
@@ -111,5 +114,10 @@ function handleClick(event) {
     window.location.href = `${url}`;
   }
 }
+
+
+
+
+
 
 window.onload = readyPage;

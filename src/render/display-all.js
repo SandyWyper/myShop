@@ -1,3 +1,6 @@
+import formatPrice from "../lib/price-format"
+
+
 function displayAll(products) {
   products.forEach(function(p) {
     const pImage = p.images[0].src;
@@ -16,9 +19,7 @@ function displayAll(products) {
         <div class="item-name-price">
           <p class="item-link p-text" >
             <a href="./product/${p.handle}.html">
-              <em>${p.title}</em> - <strong> &pound;${Math.round(
-      pPrice
-    )}</strong>
+              <em>${p.title}</em> - <strong>${formatPrice(pPrice)}</strong>
             </a>
           </p>
         </div>
